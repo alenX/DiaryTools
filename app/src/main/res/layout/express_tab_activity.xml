@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:id="@+id/layout_express">
+    <include layout="@layout/title_bar_content"/>
+    <Spinner
+        android:id="@+id/expressSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <EditText
+        android:id="@+id/expressNo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:editable="true"
+        android:hint="请在此处输入快递单号"
+        android:inputType="number" />
+    <Button
+        android:id="@+id/queryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:text="查询" />
+    <!--<TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:editable="false"
+        android:layout_weight="0.6"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="10dp" />-->
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        >
+        <TextView
+            android:id="@+id/resultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:editable="false"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="10dp" />
+    </ScrollView>
+</LinearLayout>
