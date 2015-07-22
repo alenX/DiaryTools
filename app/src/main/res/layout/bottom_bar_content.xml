@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:alenx="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ly_main_tab_bottom"
     android:layout_width="fill_parent"
     android:layout_height="55dp"
     android:layout_alignParentBottom="true"
+    android:background="#ffffff"
      >
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="55dp" >
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/id_tab_bottom_dictionary"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -29,8 +33,28 @@
                 android:clickable="false"
                 android:src="@drawable/dictionary_press" />
 
-        </LinearLayout>
-        <LinearLayout
+        </LinearLayout>-->
+        <alenx.org.diarytools.ChangeColorView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/id_tab_bottom_dictionary"
+            android:layout_weight="1"
+            android:padding="5dp"
+            alenx:icon_a="@drawable/dictionary_press"
+            alenx:text_a="字典"
+            alenx:text_size_a="20sp"
+            />
+        <alenx.org.diarytools.ChangeColorView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/id_tab_bottom_express"
+            android:layout_weight="1"
+            android:padding="5dp"
+            alenx:icon_a="@drawable/express_press"
+            alenx:text_a="快递"
+            alenx:text_size_a="20sp"
+            />
+        <!--<LinearLayout
             android:id="@+id/id_tab_bottom_express"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -51,6 +75,6 @@
                 android:clickable="false"
                 android:src="@drawable/express_press" />
 
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 </RelativeLayout>

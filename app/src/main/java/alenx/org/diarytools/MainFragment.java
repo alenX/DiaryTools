@@ -22,6 +22,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private ViewPager mViewPager;
 
     private List<Fragment> mList;
+    private List<ChangeColorView> mTabIndicator;
 
     private LinearLayout mTabExpress;
     private LinearLayout mTabTranslate;
@@ -37,7 +38,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
 
 
         initViews();
-        initClickEvent();
+//        initClickEvent();
         setSelectPage(0);
 
     }
@@ -45,17 +46,25 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private void initViews() {
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
-        mTabExpress = (LinearLayout) findViewById(R.id.id_tab_bottom_express);
-        mTabTranslate = (LinearLayout) findViewById(R.id.id_tab_bottom_dictionary);
+        /*mTabExpress = (LinearLayout) findViewById(R.id.id_tab_bottom_express);
+        mTabTranslate = (LinearLayout) findViewById(R.id.id_tab_bottom_dictionary);*/
 
-        mExpressImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_express);
-        mTranslateImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_dictionary);
+        /*mExpressImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_express);
+        mTranslateImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_dictionary);*/
 
         mList = new ArrayList<>();
+        mTabIndicator = new ArrayList<>();
         Fragment expressFrg = new ExpressFragement();
         Fragment translateFrg = new TranslateFragment();
         mList.add(translateFrg);
         mList.add(expressFrg);
+
+        ChangeColorView dictionary = (ChangeColorView) findViewById(R.id.id_tab_bottom_dictionary);
+        ChangeColorView express = (ChangeColorView) findViewById(R.id.id_tab_bottom_express);
+        mTabIndicator.add(dictionary);
+        mTabIndicator.add(express);
+//        dictionary.setIconAlpha(1.0f);
+
 
         mPageAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -75,6 +84,13 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+                if (positionOffset > 0) {
+                    ChangeColorView left = (ChangeColorView) mTabIndicator.get(position);
+                    ChangeColorView right = (ChangeColorView) mTabIndicator.get(position + 1);
+
+                    left.setIconAlpha(1 - positionOffset);
+                    right.setIconAlpha(positionOffset);
+                }
             }
 
             @Override
@@ -87,6 +103,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
     }
 
@@ -99,10 +116,12 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         resetImgs();
         switch (i) {
             case 0:
-                mTranslateImgBtn.setImageResource(R.drawable.dictionary_press);
+                mTabIndicator.get(0).setIconAlpha(1.0f);
+//                mTranslateImgBtn.setImageResource(R.drawable.dictionary_press);
                 break;
             case 1:
-                mExpressImgBtn.setImageResource(R.drawable.express_press);
+                mTabIndicator.get(1).setIconAlpha(1.0f);
+//                mExpressImgBtn.setImageResource(R.drawable.express_press);
                 break;
             default:
                 break;
@@ -111,8 +130,10 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     }
 
     private void resetImgs() {
-        mTranslateImgBtn.setImageResource(R.drawable.dictionary_normal);
-        mExpressImgBtn.setImageResource(R.drawable.express_normal);
+        /*mTranslateImgBtn.setImageResource(R.drawable.dictionary_normal);
+        mExpressImgBtn.setImageResource(R.drawable.express_normal);*/
+        mTabIndicator.get(0).setIconAlpha(0f);
+        mTabIndicator.get(1).setIconAlpha(0f);
     }
 
     private void initClickEvent() {
@@ -124,14 +145,14 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
         resetImgs();
         switch (view.getId()) {
-            case R.id.btn_tab_bottom_dictionary:
+            /*case R.id.btn_tab_bottom_dictionary:
                 setSelectPage(0);
                 break;
             case R.id.btn_tab_bottom_express:
                 setSelectPage(1);
                 break;
             default:
-                break;
+                break;*/
         }
     }
 }
