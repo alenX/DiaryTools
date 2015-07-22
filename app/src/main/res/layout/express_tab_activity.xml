@@ -27,10 +27,10 @@
         android:id="@+id/expressNo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:editable="true"
         android:hint="请在此处输入快递单号"
-        android:inputType="number" />
+        android:inputType="text" />
     <Button
         android:id="@+id/queryBtn"
         android:layout_width="wrap_content"
@@ -48,14 +48,13 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="7" >
+        android:layout_height="0dp"
+        android:layout_weight="6" >
         <TextView
             android:id="@+id/resultTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:editable="false"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="10dp" />
+            android:textSize="20dp" />
     </ScrollView>
 </LinearLayout>
