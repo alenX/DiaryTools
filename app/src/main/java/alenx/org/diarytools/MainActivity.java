@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 
 
     private EditText mSourceEditText;
-    private EditText mResultEditText;
+    private TextView mResultEditText;
     private Button mTranslateBtn;
 
     HttpClient client;
@@ -245,7 +245,7 @@ public class MainActivity extends Activity {
     public void initDictionary(View view){
         client = new DefaultHttpClient();
         mSourceEditText = (EditText) view.findViewById(R.id.sourceEditText);
-        mResultEditText = (EditText) view.findViewById(R.id.resultEditText);
+        mResultEditText = (TextView) view.findViewById(R.id.resultEditText);
         view.findViewById(R.id.translateBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

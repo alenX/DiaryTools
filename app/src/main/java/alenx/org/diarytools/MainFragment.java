@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -28,7 +27,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private LinearLayout mTabTranslate;
 
     private ImageButton mExpressImgBtn;
-    private ImageButton mTranslateBtn;
+    private ImageButton mTranslateImgBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
 
         initViews();
         initClickEvent();
+        setSelectPage(0);
 
     }
 
@@ -49,13 +49,13 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         mTabTranslate = (LinearLayout) findViewById(R.id.id_tab_bottom_dictionary);
 
         mExpressImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_express);
-        mTranslateBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_dictionary);
+        mTranslateImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_dictionary);
 
         mList = new ArrayList<>();
         Fragment expressFrg = new ExpressFragement();
         Fragment translateFrg = new TranslateFragment();
-        mList.add(expressFrg);
         mList.add(translateFrg);
+        mList.add(expressFrg);
 
         mPageAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -91,17 +91,18 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     }
 
     private void setSelectPage(int i) {
-
         setTab(i);
         mViewPager.setCurrentItem(i);
     }
 
     private void setTab(int i) {
         resetImgs();
-        switch (i){
+        switch (i) {
             case 0:
+                mTranslateImgBtn.setImageResource(R.drawable.dictionary_press);
                 break;
             case 1:
+                mExpressImgBtn.setImageResource(R.drawable.express_press);
                 break;
             default:
                 break;
@@ -110,23 +111,23 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     }
 
     private void resetImgs() {
-
-
+        mTranslateImgBtn.setImageResource(R.drawable.dictionary_normal);
+        mExpressImgBtn.setImageResource(R.drawable.express_normal);
     }
 
     private void initClickEvent() {
         mExpressImgBtn.setOnClickListener(this);
-        mTranslateBtn.setOnClickListener(this);
+        mTranslateImgBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-
+        resetImgs();
         switch (view.getId()) {
-            case R.id.id_tab_bottom_dictionary:
+            case R.id.btn_tab_bottom_dictionary:
                 setSelectPage(0);
                 break;
-            case R.id.id_tab_bottom_express:
+            case R.id.btn_tab_bottom_express:
                 setSelectPage(1);
                 break;
             default:

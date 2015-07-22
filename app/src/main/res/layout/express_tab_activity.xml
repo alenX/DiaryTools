@@ -3,19 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1"
+    android:layout_weight="1"
+    android:background="#fcfcfc"
     android:id="@+id/layout_express">
-    <include layout="@layout/title_bar_content"/>
-    <Spinner
-        android:id="@+id/expressSpinner"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2" />
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="快递名称"
+            android:layout_gravity="center"/>
+        <Spinner
+            android:id="@+id/expressSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+    </LinearLayout>
     <EditText
         android:id="@+id/expressNo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="1"
         android:editable="true"
         android:hint="请在此处输入快递单号"
         android:inputType="number" />
@@ -23,7 +35,7 @@
         android:id="@+id/queryBtn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="1"
         android:text="查询" />
     <!--<TextView
         android:id="@+id/resultTextView"
@@ -37,8 +49,7 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.6"
-        >
+        android:layout_weight="7" >
         <TextView
             android:id="@+id/resultTextView"
             android:layout_width="match_parent"
