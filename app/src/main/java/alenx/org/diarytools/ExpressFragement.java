@@ -27,6 +27,8 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.util.HashMap;
 
+import alenx.org.diarytools.CustomViews.CustomProgressDialog;
+
 /**
  * Created by wangss on 2015/7/21.
  * 快递Fragment
@@ -67,7 +69,7 @@ public class ExpressFragement extends Fragment {
 
     private class ExpressOnClick implements View.OnClickListener{
 
-        ProgressDialog pd;
+        CustomProgressDialog pd;
         @Override
         public void onClick(View view) {
             new AsyncTask<String,Void,String>(){
@@ -92,9 +94,12 @@ public class ExpressFragement extends Fragment {
 
                 @Override
                 protected void onPreExecute() {
-                    pd = ProgressDialog.show(getActivity(),"提示","正在查询中...");
-                    pd.setCancelable(false);
                     super.onPreExecute();
+                    pd = CustomProgressDialog.createDialog(getActivity());
+                    pd.setMsgTitle("快递等待");
+                    pd.setMessage("查询中...");
+                    pd.setCancelable(false);
+                    pd.show();
                 }
             }.execute(sb.toString());
         }
@@ -121,10 +126,6 @@ public class ExpressFragement extends Fragment {
                     result +="内容: [ " +jsonObject.getString("content")+ " ]" + "\n";
                 }
             }
-
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

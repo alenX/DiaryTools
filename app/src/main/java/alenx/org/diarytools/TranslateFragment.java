@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import alenx.org.diarytools.CustomViews.CustomProgressDialog;
+
 /**
  * Created by wangss on 2015/7/21.
  * 翻译Fragement
@@ -48,14 +50,18 @@ public class TranslateFragment extends Fragment {
 
     private void getTranslation(String source) {
         new AsyncTask<String, Void, String>() {
-            ProgressDialog pd;
+            CustomProgressDialog pd;
             @Override
             protected String doInBackground(String... strings) {
 
                 Pattern pattern = Pattern.compile("^[\\u0391-\\uFFE5]+$");
                 Matcher matcher = pattern.matcher(strings[0]);
                 isFromChinese= matcher.matches();
-
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 StringBuilder sb = new StringBuilder("http://fanyi.youdao.com/openapi.do?keyfrom=wangss&key=795137117&type=data&doctype=xml&version=1.1&q=");
                 sb.append(strings[0]);
 
@@ -75,14 +81,19 @@ public class TranslateFragment extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
-                pd.hide();
+                if (pd!=null){
+                    pd.hide();
+                }
                 mResultTextView.setText(s);
                 super.onPostExecute(s);
             }
             @Override
             protected void onPreExecute() {
-                pd =  ProgressDialog.show(getActivity(),"提示","正在查询中...");
+                pd =  CustomProgressDialog.createDialog(getActivity());
+                pd.setTitle("翻译提示");
+                pd.setMessage("拼命加载中...");
                 pd.setCancelable(true);
+                pd.show();
                 super.onPreExecute();
             }
         }.execute(source);
