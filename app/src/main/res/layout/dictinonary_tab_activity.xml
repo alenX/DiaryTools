@@ -9,20 +9,26 @@
     android:layout_weight="1">
 
     <EditText
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="请输入需要翻译的内容"
         android:id="@+id/sourceEditText"
         android:layout_weight="1" />
-
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="翻译"
         android:textSize="20sp"
         android:id="@+id/translateBtn"
-        android:layout_weight="1"/>
-
+        android:layout_weight="1"/>-->
+    <alenx.org.diarytools.CustomViews.QueryButton
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="翻译"
+        android:layout_marginTop="20dp"
+        android:id="@+id/translateBtn"
+        android:layout_weight="1" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
