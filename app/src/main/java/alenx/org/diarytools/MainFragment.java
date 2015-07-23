@@ -24,8 +24,8 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private List<Fragment> mList;
     private List<ChangeColorView> mTabIndicator;
 
-    private LinearLayout mTabExpress;
-    private LinearLayout mTabTranslate;
+    /*private LinearLayout mTabExpress;
+    private LinearLayout mTabTranslate;*/
 
 
 
@@ -66,7 +66,6 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         express.setOnClickListener(this);
         mTabIndicator.add(dictionary);
         mTabIndicator.add(express);
-//        dictionary.setIconAlpha(1.0f);
 
 
         mPageAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -88,8 +87,8 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 if (positionOffset > 0) {
-                    ChangeColorView left = (ChangeColorView) mTabIndicator.get(position);
-                    ChangeColorView right = (ChangeColorView) mTabIndicator.get(position + 1);
+                    ChangeColorView left =  mTabIndicator.get(position);
+                    ChangeColorView right =  mTabIndicator.get(position + 1);
 
                     left.setIconAlpha(1 - positionOffset);
                     right.setIconAlpha(positionOffset);
