@@ -27,8 +27,7 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private LinearLayout mTabExpress;
     private LinearLayout mTabTranslate;
 
-    private ImageButton mExpressImgBtn;
-    private ImageButton mTranslateImgBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +48,10 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         /*mTabExpress = (LinearLayout) findViewById(R.id.id_tab_bottom_express);
         mTabTranslate = (LinearLayout) findViewById(R.id.id_tab_bottom_dictionary);*/
 
-        /*mExpressImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_express);
-        mTranslateImgBtn = (ImageButton) findViewById(R.id.btn_tab_bottom_dictionary);*/
+       /* mExpressImgBtn = (View) findViewById(R.id.id_tab_bottom_express);
+        mTranslateImgBtn = (ImageButton) findViewById(R.id.id_tab_bottom_dictionary);
+        mExpressImgBtn.setOnClickListener(this);
+        mTranslateImgBtn.setOnClickListener(this);*/
 
         mList = new ArrayList<>();
         mTabIndicator = new ArrayList<>();
@@ -61,6 +62,8 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
 
         ChangeColorView dictionary = (ChangeColorView) findViewById(R.id.id_tab_bottom_dictionary);
         ChangeColorView express = (ChangeColorView) findViewById(R.id.id_tab_bottom_express);
+        dictionary.setOnClickListener(this);
+        express.setOnClickListener(this);
         mTabIndicator.add(dictionary);
         mTabIndicator.add(express);
 //        dictionary.setIconAlpha(1.0f);
@@ -136,23 +139,20 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         mTabIndicator.get(1).setIconAlpha(0f);
     }
 
-    private void initClickEvent() {
-        mExpressImgBtn.setOnClickListener(this);
-        mTranslateImgBtn.setOnClickListener(this);
-    }
+
 
     @Override
     public void onClick(View view) {
         resetImgs();
         switch (view.getId()) {
-            /*case R.id.btn_tab_bottom_dictionary:
+            case R.id.id_tab_bottom_dictionary:
                 setSelectPage(0);
                 break;
-            case R.id.btn_tab_bottom_express:
+            case R.id.id_tab_bottom_express:
                 setSelectPage(1);
                 break;
             default:
-                break;*/
+                break;
         }
     }
 }
