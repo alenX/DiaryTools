@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <attr name="icon_a" format="reference"/>
     <attr name="color_a" format="color"/>
     <attr name="text_a" format="string"/>
     <attr name="text_size_a" format="dimension"/>
     <declare-styleable name="ChangeColorView">
+        <attr name="icon_a" />
+        <attr name="color_a" />
+        <attr name="text_a" />
+        <attr name="text_size_a" />
+    </declare-styleable>
+    <declare-styleable name="CustomBottumBarView">
         <attr name="icon_a"/>
         <attr name="color_a"/>
         <attr name="text_a"/>

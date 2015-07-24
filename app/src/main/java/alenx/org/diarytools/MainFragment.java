@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +88,9 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
                 if (positionOffset > 0) {
                     ChangeColorView left =  mTabIndicator.get(position);
                     ChangeColorView right =  mTabIndicator.get(position + 1);
-
-                    left.setIconAlpha(1 - positionOffset);
-                    right.setIconAlpha(positionOffset);
+                    Log.v("Test", positionOffset + "," + position);
+                    left.setIconAlpha((1 - positionOffset) / 2.0f + 0.5f);
+                    right.setIconAlpha((positionOffset + 1f) / 2.0f);
                 }
             }
 
@@ -134,8 +133,8 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private void resetImgs() {
         /*mTranslateImgBtn.setImageResource(R.drawable.dictionary_normal);
         mExpressImgBtn.setImageResource(R.drawable.express_normal);*/
-        mTabIndicator.get(0).setIconAlpha(0f);
-        mTabIndicator.get(1).setIconAlpha(0f);
+        mTabIndicator.get(0).setIconAlpha(0.2f);
+        mTabIndicator.get(1).setIconAlpha(0.2f);
     }
 
 

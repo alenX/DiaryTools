@@ -22,7 +22,7 @@ public class ChangeColorView extends View {
     private Canvas mCanvas;
     private Paint mPaint;
 
-    private int mColor=0xE0EEEE;//源颜色
+    private int mColor = 0xffffff;//源颜色
     private float mAlpha = 0f;
     private Bitmap mIconBitmap;
     private Rect mIconRect;
@@ -54,7 +54,7 @@ public class ChangeColorView extends View {
                     mIconBitmap = drawable.getBitmap();
                     break;
                 case R.styleable.ChangeColorView_color_a:
-//                    mColor = a.getColor(attr, 0xFF83FA);
+                    mColor = a.getColor(attr, 0xffffff);
                     break;
                 case R.styleable.ChangeColorView_text_a:
                     mText = a.getString(attr);
@@ -69,8 +69,6 @@ public class ChangeColorView extends View {
 
         mTextPaint = new Paint();
         mTextPaint.setTextSize(mTextSize);
-//        mTextPaint.setColor(0xff555555);//目的颜色
-        mTextPaint.setColor(0x90EE90);
         mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
 
     }
@@ -104,7 +102,7 @@ public class ChangeColorView extends View {
 
     private void drawTargetText(Canvas canvas, int alpha) {
 
-//        mTextPaint.setColor(mColor);
+        mTextPaint.setColor(mColor);
         mTextPaint.setAlpha(alpha);
         canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2 - mTextBound.width() / 2,
                 mIconRect.bottom + mTextBound.height(), mTextPaint);
@@ -113,7 +111,7 @@ public class ChangeColorView extends View {
     private void drawSourceText(Canvas canvas, int alpha) {
 
         mTextPaint.setTextSize(mTextSize);
-        mTextPaint.setColor(0xEE0000);
+        mTextPaint.setColor(0x000000);
         mTextPaint.setAlpha(255 - alpha);
         canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2 - mTextBound.width() / 2,
                 mIconRect.bottom + mTextBound.height(), mTextPaint);
