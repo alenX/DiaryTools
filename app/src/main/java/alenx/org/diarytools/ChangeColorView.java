@@ -125,7 +125,7 @@ public class ChangeColorView extends View {
         mPaint.setColor(mColor);
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setAlpha(255-alpha);
+        mPaint.setAlpha(255 - alpha);
 
         mCanvas.drawRect(mIconRect, mPaint);
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));

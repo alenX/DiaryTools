@@ -27,7 +27,6 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
     private LinearLayout mTabTranslate;*/
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +85,8 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 if (positionOffset > 0) {
-                    ChangeColorView left =  mTabIndicator.get(position);
-                    ChangeColorView right =  mTabIndicator.get(position + 1);
+                    ChangeColorView left = mTabIndicator.get(position);
+                    ChangeColorView right = mTabIndicator.get(position + 1);
                     Log.v("Test", positionOffset + "," + position);
                     left.setIconAlpha((1 - positionOffset) / 2.0f + 0.5f);
                     right.setIconAlpha((positionOffset + 1f) / 2.0f);
@@ -136,7 +135,6 @@ public class MainFragment extends FragmentActivity implements View.OnClickListen
         mTabIndicator.get(0).setIconAlpha(0.2f);
         mTabIndicator.get(1).setIconAlpha(0.2f);
     }
-
 
 
     @Override

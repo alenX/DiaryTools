@@ -1,6 +1,5 @@
 package alenx.org.diarytools;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,27 +35,24 @@ import alenx.org.diarytools.CustomViews.CustomProgressDialog;
 public class TranslateFragment extends Fragment {
 
     public static final String LOG_TYPE = "TranslateFragment---";
+    HttpClient client;
+    boolean isFromChinese = true;//是否是从中文翻译为英文
     private Button mTranslateBtn;
     private EditText mTranslateTextView;
     private TextView mResultTextView;
-
-
-    HttpClient client;
-
-    boolean isFromChinese = true;//是否是从中文翻译为英文
-
-    private View mTranslateView ;
+    private View mTranslateView;
 
 
     private void getTranslation(String source) {
         new AsyncTask<String, Void, String>() {
             CustomProgressDialog pd;
+
             @Override
             protected String doInBackground(String... strings) {
 
                 Pattern pattern = Pattern.compile("^[\\u0391-\\uFFE5]+$");
                 Matcher matcher = pattern.matcher(strings[0]);
-                isFromChinese= matcher.matches();
+                isFromChinese = matcher.matches();
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -70,7 +66,7 @@ public class TranslateFragment extends Fragment {
                 try {
                     HttpResponse response = client.execute(get);
                     if (response.getStatusLine().getStatusCode() == 200) {
-                        value = parseXMLByPull(EntityUtils.toString(response.getEntity()),isFromChinese);
+                        value = parseXMLByPull(EntityUtils.toString(response.getEntity()), isFromChinese);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -81,15 +77,16 @@ public class TranslateFragment extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
-                if (pd!=null){
+                if (pd != null) {
                     pd.hide();
                 }
                 mResultTextView.setText(s);
                 super.onPostExecute(s);
             }
+
             @Override
             protected void onPreExecute() {
-                pd =  CustomProgressDialog.createDialog(getActivity());
+                pd = CustomProgressDialog.createDialog(getActivity());
                 pd.setTitle("翻译提示");
                 pd.setMessage("拼命加载中...");
                 pd.setCancelable(true);
@@ -101,10 +98,10 @@ public class TranslateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mTranslateView= inflater.inflate(R.layout.dictinonary_tab_activity,container,false);
-        mTranslateBtn = (Button)mTranslateView.findViewById(R.id.translateBtn);
-        mTranslateTextView = (EditText)mTranslateView.findViewById(R.id.sourceEditText);
-        mResultTextView = (TextView)mTranslateView.findViewById(R.id.resultEditText);
+        mTranslateView = inflater.inflate(R.layout.dictinonary_tab_activity, container, false);
+        mTranslateBtn = (Button) mTranslateView.findViewById(R.id.translateBtn);
+        mTranslateTextView = (EditText) mTranslateView.findViewById(R.id.sourceEditText);
+        mResultTextView = (TextView) mTranslateView.findViewById(R.id.resultEditText);
         mTranslateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +112,8 @@ public class TranslateFragment extends Fragment {
         client = new DefaultHttpClient();
         return mTranslateView;
     }
-    private String parseXMLByPull(String xmlSource,Boolean isFromChinese) {
+
+    private String parseXMLByPull(String xmlSource, Boolean isFromChinese) {
         String result = "\n";
 
         try {
@@ -125,7 +123,7 @@ public class TranslateFragment extends Fragment {
 
             int eventType = xmlPullParser.getEventType();
             ArrayList<String> exs = new ArrayList<>();
-            if (!isFromChinese){
+            if (!isFromChinese) {
                 String phonetic = "";//音标
                 String us_phonetic = "";//美式音标
                 String uk_phonetic = "";//英式音标
@@ -146,7 +144,7 @@ public class TranslateFragment extends Fragment {
                             break;
                         case XmlPullParser.END_TAG:
                             if ("basic".equals(nodeName)) {
-                                result = phonetic + us_phonetic + uk_phonetic+"翻译:\n ";
+                                result = phonetic + us_phonetic + uk_phonetic + "翻译:\n ";
                                 for (String ex : exs) {
                                     result += ex;
                                 }
@@ -160,7 +158,7 @@ public class TranslateFragment extends Fragment {
                     }
                     eventType = xmlPullParser.next();
                 }
-            }else{
+            } else {
                 String paragraph = "";
                 String phonetic = "";
                 while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -171,7 +169,7 @@ public class TranslateFragment extends Fragment {
                                 phonetic = "拼音: [ " + xmlPullParser.nextText() + " ]" + "\n";
                             } else if ("us-paragraph".equals(nodeName)) {
                                 paragraph = "翻译: [ " + xmlPullParser.nextText() + " ]" + "\n";
-                            }   else if ("ex".equals(nodeName)) {
+                            } else if ("ex".equals(nodeName)) {
                                 exs.add(xmlPullParser.nextText() + "\n");
                             }
                             break;
@@ -192,9 +190,7 @@ public class TranslateFragment extends Fragment {
                     eventType = xmlPullParser.next();
                 }
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
         return result;
