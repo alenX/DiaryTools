@@ -11,11 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,32 +58,39 @@ public class ExpressFragement extends Fragment {
         mQueryBtn = (Button) mExpressView.findViewById(R.id.queryBtn);
         sb = new StringBuilder("http://www.kuaidiapi.cn/rest/" +
                 "?uid=33720&key=c89b47c4e3014bd59a814164f1fd60a8&order=" + mExpressEditText.getText().toString() + "&id=" + hashMap.get(mExpressSpinner.getSelectedItem().toString()));
-        mQueryBtn.setOnClickListener(new ExpressOnClick());
+        mQueryBtn.setOnClickListener(new ExpressOnClick(mExpressEditText));
 
         return mExpressView;
     }
 
     public String parseFromJson(String resource) {
         String result = "\n";
+        JSONObject object = null;
         try {
-            HttpGet get = new HttpGet(resource);
-            HttpClient client = new DefaultHttpClient();
-            HttpResponse response = client.execute(get);
-            if (response.getStatusLine().getStatusCode() == 200) {
-//                JSONObject object = new JSONObject(EntityUtils.toString(response.getEntity()));
-                JSONObject object = new JSONObject("{\"id\":\"ems\",\"name\":\"EMS快递\",\"order\":\"EJ289957855JP\",\"message\":\"\",\"errcode\":\"0000\",\"status\":4,\"data\":[{\"time\":\"2015-04-23 21:06:00\",\"content\":\"收寄\"},{\"time\":\"2015-04-25 09:37:00\",\"content\":\"离开处理中心,发往中国 北京\"},{\"time\":\"2015-04-27 19:15:55\",\"content\":\"到达处理中心,来自JPKIXH\"},{\"time\":\"2015-04-28 07:28:37\",\"content\":\"离开处理中心,发往留存（待验）\"},{\"time\":\"2015-04-28 08:30:34\",\"content\":\"到达处理中心,来自留存（待验）\"},{\"time\":\"2015-04-28 13:16:15\",\"content\":\"海关放行\"},{\"time\":\"2015-04-28 13:16:15\",\"content\":\"海关放行\"},{\"time\":\"2015-04-28 13:16:25\",\"content\":\"离开处理中心,发往北京邮政速递中关村区域分公司世纪城营投部\"},{\"time\":\"2015-04-28 15:32:39\",\"content\":\"到达处理中心,来自北京邮件处理中心（航空）\"},{\"time\":\"2015-04-28 15:43:53\",\"content\":\"安排投递\"},{\"time\":\"2015-04-28 16:42:15\",\"content\":\"投递并签收\"}]}");
-
-                result += "快递名称: [ " + object.get("name") + " ]" + "\n";
-                result += "快递单号: [ " + object.get("order") + " ]" + "\n";
-                JSONArray jsonArray = object.getJSONArray("data");
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    result += "时间: [ " + jsonObject.getString("time") + " ]" + "\n";
-                    result += "内容: [ " + jsonObject.getString("content") + " ]" + "\n";
+            if (resource.equals("000")) {//测试用数据
+                object = new JSONObject("{\"id\":\"ems\",\"name\":\"EMS快递\",\"order\":\"EJ289957855JP\",\"message\":\"\",\"errcode\":\"0000\",\"status\":4,\"data\":[{\"time\":\"2015-04-23 21:06:00\",\"content\":\"收寄\"},{\"time\":\"2015-04-25 09:37:00\",\"content\":\"离开处理中心,发往中国 北京\"},{\"time\":\"2015-04-27 19:15:55\",\"content\":\"到达处理中心,来自JPKIXH\"},{\"time\":\"2015-04-28 07:28:37\",\"content\":\"离开处理中心,发往留存（待验）\"},{\"time\":\"2015-04-28 08:30:34\",\"content\":\"到达处理中心,来自留存（待验）\"},{\"time\":\"2015-04-28 13:16:15\",\"content\":\"海关放行\"},{\"time\":\"2015-04-28 13:16:15\",\"content\":\"海关放行\"},{\"time\":\"2015-04-28 13:16:25\",\"content\":\"离开处理中心,发往北京邮政速递中关村区域分公司世纪城营投部\"},{\"time\":\"2015-04-28 15:32:39\",\"content\":\"到达处理中心,来自北京邮件处理中心（航空）\"},{\"time\":\"2015-04-28 15:43:53\",\"content\":\"安排投递\"},{\"time\":\"2015-04-28 16:42:15\",\"content\":\"投递并签收\"}]}");
+            } else {
+                HttpGet get = new HttpGet(resource);
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(get);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    object = new JSONObject(EntityUtils.toString(response.getEntity()));
+                } else {
+                    Toast.makeText(getActivity(), "无数据", Toast.LENGTH_SHORT).show();
+                    return result;
                 }
             }
+            result += "快递名称: [ " + object.get("name") + " ]" + "\n";
+            result += "快递单号: [ " + object.get("order") + " ]" + "\n";
+            JSONArray jsonArray = object.getJSONArray("data");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                result += "时间: [ " + jsonObject.getString("time") + " ]" + "\n";
+                result += "内容: [ " + jsonObject.getString("content") + " ]" + "\n";
+            }
+
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -89,21 +98,31 @@ public class ExpressFragement extends Fragment {
     }
 
     private class ExpressOnClick implements View.OnClickListener {
+        EditText mEditText;
+
+        public ExpressOnClick(EditText editText) {
+            this.mEditText = editText;
+        }
 
         CustomProgressDialog pd;
 
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
+            final String order = mEditText.getText().toString().trim();
+
             new AsyncTask<String, Void, String>() {
                 @Override
                 protected String doInBackground(String... strings) {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    String str = "http://www.kuaidiapi.cn/rest/?uid=33720&key=c89b47c4e3014bd59a814164f1fd60a8&order=EJ289957855JP&id=ems&show=json";
-                    return parseFromJson(str);
+//                    String str = "http://www.kuaidiapi.cn/rest/?uid=33720&key=c89b47c4e3014bd59a814164f1fd60a8&order=EJ289957855JP&id=ems&show=json";
+                    if (order.equals("000")) {
+                        return parseFromJson("000");
+                    }
+                    return parseFromJson(sb.toString());
                 }
 
                 @Override
